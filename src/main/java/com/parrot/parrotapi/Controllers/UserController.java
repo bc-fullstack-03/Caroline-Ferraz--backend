@@ -1,6 +1,7 @@
 package com.parrot.parrotapi.Controllers;
 
 import com.parrot.parrotapi.Services.User.GetUsersRequest;
+import com.parrot.parrotapi.Services.User.UpdateUserRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,6 @@ public class UserController {
     @Transactional
     public ResponseEntity<String> createUser(@RequestBody @Valid CreateUserRequest request){
         var response = _userService.createUser(request);
-
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -31,6 +31,13 @@ public class UserController {
     public ResponseEntity<List<GetUsersRequest>> getUsers(){
         var response = _userService.getUsers();
         return ResponseEntity.ok(response);
+    }
+
+    @PutMapping
+    @Transactional
+    public ResponseEntity updateUser(@RequestBody @Valid UpdateUserRequest request){
+        _userService.updateUser(request);
+        return ResponseEntity.ok("");
     }
 
 //    public ResponseEntity<FindUserResponse> getUser(String email){

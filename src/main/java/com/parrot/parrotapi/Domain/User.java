@@ -1,5 +1,6 @@
 package com.parrot.parrotapi.Domain;
 
+import com.parrot.parrotapi.Services.User.UpdateUserRequest;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -39,5 +40,20 @@ public class User {
     }
 
     public void setPhoto() { this.photo = "https://i.imgur.com/zHoVjaF.jpeg"; }
+
+    public void updateUserData(UpdateUserRequest data) {
+        if(data.getName() != null){
+            this.name = data.getName();
+        }
+        if(data.getPhoto() != null){
+            this.photo = data.getPhoto();
+        }
+        if(data.getEmail() != null){
+            this.email = data.getEmail();
+        }
+        if(data.getPassword() != null){
+            this.password = data.getPassword();
+        }
+    }
 
 }
