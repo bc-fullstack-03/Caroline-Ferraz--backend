@@ -12,6 +12,7 @@ import com.parrot.parrotapi.Services.User.CreateUserRequest;
 import com.parrot.parrotapi.Services.User.IUserService;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -37,7 +38,14 @@ public class UserController {
     @Transactional
     public ResponseEntity updateUser(@RequestBody @Valid UpdateUserRequest request){
         _userService.updateUser(request);
-        return ResponseEntity.ok("");
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity deleteUser(@PathVariable UUID id) {
+        _userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
     }
 
 //    public ResponseEntity<FindUserResponse> getUser(String email){

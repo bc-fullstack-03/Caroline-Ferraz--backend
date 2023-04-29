@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 @Service
 public class UserService implements IUserService {
@@ -33,6 +34,10 @@ public class UserService implements IUserService {
         User user = optionalUser.orElseThrow(() -> new NoSuchElementException("Usuário não encontrado"));
         user.updateUserData(request);
         _userRepository.save(user);
+    }
+
+    public void deleteUser(UUID id){
+        _userRepository.deleteById(id);
     }
 
 }

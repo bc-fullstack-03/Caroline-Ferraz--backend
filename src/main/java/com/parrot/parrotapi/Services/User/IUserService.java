@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface IUserService {
 
@@ -12,4 +13,6 @@ public interface IUserService {
     List<GetUsersRequest> getUsers();
 
     void updateUser(UpdateUserRequest request);
+
+    void deleteUser(UUID id);
 }
