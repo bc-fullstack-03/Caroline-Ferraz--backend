@@ -3,7 +3,12 @@ package com.parrot.parrotapi.Services.User;
 import com.parrot.parrotapi.Infrastructure.IUserRepository;
 import com.parrot.parrotapi.Domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserService implements IUserService {
@@ -16,5 +21,9 @@ public class UserService implements IUserService {
         _userRepository.save(user);
 
         return user.getId().toString();
+    }
+
+    public List<GetUsersRequest> getUsers() {
+        return _userRepository.findAll().stream().map(GetUsersRequest::new).toList();
     }
 }
