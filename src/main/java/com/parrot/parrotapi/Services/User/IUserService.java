@@ -15,4 +15,6 @@ public interface IUserService {
     void updateUser(UpdateUserRequest request);
 
     void deleteUser(UUID id);
+
+    GetUserByIdRequest getUserById(UUID id);
 }

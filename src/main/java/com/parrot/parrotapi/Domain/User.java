@@ -1,5 +1,6 @@
 package com.parrot.parrotapi.Domain;
 
+import com.parrot.parrotapi.Services.User.GetUserByIdRequest;
 import com.parrot.parrotapi.Services.User.UpdateUserRequest;
 import lombok.*;
 import org.springframework.data.annotation.Id;
