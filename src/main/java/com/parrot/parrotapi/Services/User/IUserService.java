@@ -10,4 +10,6 @@ public interface IUserService {
     String createUser(CreateUserRequest request);
 
     List<GetUsersRequest> getUsers();
+
+    void updateUser(UpdateUserRequest request);
 }

@@ -9,6 +9,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class UserService implements IUserService {
@@ -16,7 +17,7 @@ public class UserService implements IUserService {
     @Autowired
     private IUserRepository _userRepository;
 
-    public String createUser(CreateUserRequest request){
+    public String createUser(CreateUserRequest request) {
         var user = new User(request.name, request.email, request.password);
         _userRepository.save(user);
 
@@ -26,4 +27,12 @@ public class UserService implements IUserService {
     public List<GetUsersRequest> getUsers() {
         return _userRepository.findAll().stream().map(GetUsersRequest::new).toList();
     }
+
+    public void updateUser(UpdateUserRequest request) {
+        var optionalUser = _userRepository.findById(request.getId());
+        User user = optionalUser.orElseThrow(() -> new NoSuchElementException("Usuário não encontrado"));
+        user.updateUserData(request);
+        _userRepository.save(user);
+    }
+
 }
