@@ -16,5 +16,5 @@ public interface IPostService {
 
     void deletePost(UUID id);
 
-    //GetPostByIdRequest getPostById(UUID id);
+    GetPostByIdRequest getPostById(UUID id);
 }

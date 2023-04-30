@@ -45,6 +45,4 @@ public class UserService implements IUserService {
         User user = optionalUser.orElseThrow(() -> new NoSuchElementException("Usuário não encontrado"));
         return new GetUserByIdRequest(user.getId(), user.getName(), user.getPhoto(), user.getFriends(), user.getFollowing(), user.getFollowers());
     }
-
-
 }
