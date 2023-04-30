@@ -46,4 +46,5 @@ public class UserService implements IUserService {
         return new GetUserByIdRequest(user.getId(), user.getName(), user.getPhoto(), user.getFriends(), user.getFollowing(), user.getFollowers());
     }
 
+
 }
