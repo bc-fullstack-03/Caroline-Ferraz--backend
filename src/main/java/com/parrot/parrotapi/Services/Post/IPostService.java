@@ -14,7 +14,7 @@ public interface IPostService {
 
     void updatePost(UpdatePostRequest request);
 
-    //void deletePost(UUID id);
+    void deletePost(UUID id);
 
     //GetPostByIdRequest getPostById(UUID id);
 }

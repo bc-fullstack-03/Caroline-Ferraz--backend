@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("api/v1/post")
@@ -35,5 +36,11 @@ public class PostController {
     public ResponseEntity<UpdatePostRequest> updatePost(@RequestBody @Valid UpdatePostRequest request){
         _postService.updatePost(request);
         return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deletePost(@PathVariable UUID id) {
+        _postService.deletePost(id);
+        return ResponseEntity.noContent().build();
     }
 }
