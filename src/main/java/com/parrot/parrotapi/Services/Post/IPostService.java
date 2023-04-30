@@ -12,7 +12,7 @@ public interface IPostService {
 
     List<GetPostsRequest> getPosts();
 
-    //void updatePost(UpdatePostRequest request);
+    void updatePost(UpdatePostRequest request);
 
     //void deletePost(UUID id);
 

@@ -3,6 +3,7 @@ package com.parrot.parrotapi.Controllers;
 import com.parrot.parrotapi.Services.Post.CreatePostRequest;
 import com.parrot.parrotapi.Services.Post.GetPostsRequest;
 import com.parrot.parrotapi.Services.Post.PostService;
+import com.parrot.parrotapi.Services.Post.UpdatePostRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,5 +29,11 @@ public class PostController {
     public ResponseEntity<List<GetPostsRequest>> getPosts(){
         var response = _postService.getPosts();
         return ResponseEntity.ok(response);
+    }
+
+    @PutMapping
+    public ResponseEntity<UpdatePostRequest> updatePost(@RequestBody @Valid UpdatePostRequest request){
+        _postService.updatePost(request);
+        return ResponseEntity.ok().build();
     }
 }

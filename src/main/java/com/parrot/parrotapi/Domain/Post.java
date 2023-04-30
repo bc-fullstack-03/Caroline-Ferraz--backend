@@ -1,5 +1,6 @@
 package com.parrot.parrotapi.Domain;
 
+import com.parrot.parrotapi.Services.Post.UpdatePostRequest;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -34,4 +35,10 @@ public class Post {
         this.id = UUID.randomUUID();
     }
     protected void setTimestamp(){ this.timestamp = LocalDateTime.now(); }
+
+    public void updatePostData(UpdatePostRequest data){
+        if(data.getDescription() != null){
+            this.description = data.getDescription();
+        }
+    }
 }

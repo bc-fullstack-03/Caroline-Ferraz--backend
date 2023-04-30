@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class PostService implements IPostService {
@@ -21,5 +22,12 @@ public class PostService implements IPostService {
 
     public List<GetPostsRequest> getPosts(){
         return _postRepository.findAll().stream().map(GetPostsRequest::new).toList();
+    }
+
+    public void updatePost(UpdatePostRequest request){
+        var optionalPost = _postRepository.findById(request.getId());
+        Post post = optionalPost.orElseThrow(() -> new NoSuchElementException("Usuário não encontrado"));
+        post.updatePostData(request);
+        _postRepository.save(post);
     }
 }
