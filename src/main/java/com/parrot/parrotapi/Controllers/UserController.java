@@ -1,15 +1,12 @@
 package com.parrot.parrotapi.Controllers;
 
-import com.parrot.parrotapi.Services.User.GetUsersRequest;
-import com.parrot.parrotapi.Services.User.UpdateUserRequest;
+import com.parrot.parrotapi.Services.User.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import com.parrot.parrotapi.Services.User.CreateUserRequest;
-import com.parrot.parrotapi.Services.User.IUserService;
 
 import java.util.List;
 import java.util.UUID;
@@ -48,7 +45,9 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-//    public ResponseEntity<FindUserResponse> getUser(String email){
-//
-//    }
+    @GetMapping("/{id}")
+    public ResponseEntity<GetUserByIdRequest> getUserById(@PathVariable UUID id){
+        var user = _userService.getUserById(id);
+        return ResponseEntity.ok(user);
+    }
 }

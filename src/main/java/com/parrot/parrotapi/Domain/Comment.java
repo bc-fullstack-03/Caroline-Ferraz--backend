@@ -11,9 +11,16 @@ public class Comment {
 
     @Id
     private UUID id;
-    @DBRef
-    private Post postId;
-    @DBRef
-    private User userId;
+    private UUID postId;
+    private UUID userId;
     private String text;
+
+    public Comment(UUID postId,  UUID userId, String text){
+        setId();
+        this.postId = postId;
+        this.userId = userId;
+        this.text = text;
+    }
+
+    protected void setId() { this.id = UUID.randomUUID(); }
 }

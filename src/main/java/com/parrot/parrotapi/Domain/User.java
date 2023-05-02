@@ -1,8 +1,10 @@
 package com.parrot.parrotapi.Domain;
 
+import com.parrot.parrotapi.Services.User.GetUserByIdRequest;
 import com.parrot.parrotapi.Services.User.UpdateUserRequest;
 import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
@@ -19,8 +21,11 @@ public class User {
     private String photo;
     private String email;
     private String password;
+    @DBRef
     private List<User> friends;
+    @DBRef
     private List<User> following;
+    @DBRef
     private List<User> followers;
 
     public User(String name, String email, String password){

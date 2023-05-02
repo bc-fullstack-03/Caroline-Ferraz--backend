@@ -40,4 +40,9 @@ public class UserService implements IUserService {
         _userRepository.deleteById(id);
     }
 
+    public GetUserByIdRequest getUserById(UUID id){
+        var optionalUser = _userRepository.findById(id);
+        User user = optionalUser.orElseThrow(() -> new NoSuchElementException("Usuário não encontrado"));
+        return new GetUserByIdRequest(user.getId(), user.getName(), user.getPhoto(), user.getFriends(), user.getFollowing(), user.getFollowers());
+    }
 }
