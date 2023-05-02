@@ -1,5 +1,6 @@
 package com.parrot.parrotapi.Controllers;
 
+import com.parrot.parrotapi.Domain.Post;
 import com.parrot.parrotapi.Services.User.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +50,11 @@ public class UserController {
     public ResponseEntity<GetUserByIdRequest> getUserById(@PathVariable UUID id){
         var user = _userService.getUserById(id);
         return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/{id}/posts")
+    public ResponseEntity<List<Post>> getPostsByUser(@PathVariable UUID id){
+        var posts =  _userService.getPostsByUser(id);
+        return ResponseEntity.ok(posts);
     }
 }

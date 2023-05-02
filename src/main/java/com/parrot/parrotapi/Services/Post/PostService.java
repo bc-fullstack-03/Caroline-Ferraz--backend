@@ -73,4 +73,8 @@ public class PostService implements IPostService {
         _postRepository.save(post);
     }
 
+    public List<Post> getPostsByUser(UUID userId){
+        return _postRepository.findAllByUserId(userId);
+    }
+
 }

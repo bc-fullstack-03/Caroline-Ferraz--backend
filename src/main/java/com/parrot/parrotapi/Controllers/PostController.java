@@ -66,6 +66,10 @@ public class PostController {
         return ResponseEntity.ok().build();
     }
 
+    // refatorar métodos get all de postagens, da seguinte maneira:
+        // 1 - retornar postagens por user id
+        // 2 - retornar postagens de usuários que são amigos (feed)
+
     // definir método para se tornar amigo
 
     // definir método para se tornar seguidor
