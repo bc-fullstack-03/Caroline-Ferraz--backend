@@ -1,7 +1,6 @@
 package com.parrot.parrotapi.Services.Post;
 
-import com.parrot.parrotapi.Services.User.GetUserByIdRequest;
-import com.parrot.parrotapi.Services.User.UpdateUserRequest;
+import com.parrot.parrotapi.Domain.Comment;
 
 import java.util.List;
 import java.util.UUID;
@@ -17,4 +16,10 @@ public interface IPostService {
     void deletePost(UUID id);
 
     GetPostByIdRequest getPostById(UUID id);
+
+    void addComment(Comment request);
+
+    void removeComment(UUID postId, UUID id);
+
+    void likeOrDislikePost(LikeOrDislikePostRequest request);
 }

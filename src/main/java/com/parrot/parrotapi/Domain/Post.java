@@ -1,15 +1,19 @@
 package com.parrot.parrotapi.Domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.parrot.parrotapi.Services.Post.UpdatePostRequest;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Data
+//@Document
 public class Post {
 
     @Id
@@ -18,10 +22,10 @@ public class Post {
     private LocalDateTime timestamp;
     private String description;
     private String photo;
-    @DBRef
-    private List<User> likes;
-    @DBRef
-    private List<Comment> comment;
+    private List<UUID> likes; // id's of the users that liked the post
+    //@DBRef(lazy = true)
+    //@JsonManagedReference
+    private List<Comment> comments;
 
     public Post(UUID userId, String description, String photo){
         this.setId();
@@ -29,6 +33,8 @@ public class Post {
         this.setTimestamp();
         this.description = description;
         this.photo = photo;
+        this.likes = new ArrayList<UUID>();
+        this.comments = new ArrayList<Comment>();
     }
 
     protected void setId(){
@@ -39,6 +45,28 @@ public class Post {
     public void updatePostData(UpdatePostRequest data){
         if(data.getDescription() != null){
             this.description = data.getDescription();
+        }
+    }
+
+    public void addComment(Comment comment){
+        this.comments.add(comment);
+    }
+
+    public void removeComment(List<Comment> comments, UUID id){
+        for(Comment comment : comments){
+            if(comment.getId().equals(id)){
+                comments.remove(comment);
+                break;
+            }
+        }
+    }
+
+    public void likeOrDislikePost(UUID userId) {
+        if(likes.contains(userId)) {
+            likes.remove(userId);
+        }
+        else {
+            this.likes.add(userId);
         }
     }
 }

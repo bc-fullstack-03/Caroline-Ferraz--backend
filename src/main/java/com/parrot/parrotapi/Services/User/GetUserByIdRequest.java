@@ -1,6 +1,5 @@
 package com.parrot.parrotapi.Services.User;
 
-import com.parrot.parrotapi.Domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -14,7 +13,7 @@ public class GetUserByIdRequest {
     private UUID id;
     private String name;
     private String photo;
-    private List<User> friends;
-    private List<User> following;
-    private List<User> followers;
+    private List<UUID> friends;
+    private List<UUID> following;
+    private List<UUID> followers;
 }
