@@ -20,4 +20,10 @@ public interface IUserService {
     GetUserByIdRequest getUserById(UUID id);
 
     List<Post> getPostsByUser(UUID userId);
+
+    void followOrUnfollowUser(UUID userId, FollowOrUnfollowUserRequest request);
+
+    void addOrRemoveFollower(UUID userId, FollowOrUnfollowUserRequest request);
+    void addPost(Post post);
+
 }

@@ -62,4 +62,26 @@ public class User {
         }
     }
 
+    public void followOrUnfollowUser(UUID userId){
+        if(following.contains(userId)) {
+            following.remove(userId);
+        }
+        else {
+            this.following.add(userId);
+        }
+    }
+
+    public void addOrRemoveFollower(UUID id){
+        if(followers.contains(id)) {
+            followers.remove(id);
+        }
+        else {
+            this.followers.add(id);
+        }
+    }
+
+    public void addPost(Post post){
+        this.posts.add(post);
+    }
+
 }

@@ -57,4 +57,11 @@ public class UserController {
         var posts =  _userService.getPostsByUser(id);
         return ResponseEntity.ok(posts);
     }
+
+    @PutMapping("{userId}")
+    public ResponseEntity followOrUnfollowUser(@PathVariable UUID userId, @RequestBody FollowOrUnfollowUserRequest id){
+        _userService.followOrUnfollowUser(userId, id);
+        _userService.addOrRemoveFollower(userId, id);
+        return ResponseEntity.noContent().build();
+    }
 }

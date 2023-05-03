@@ -3,8 +3,10 @@ package com.parrot.parrotapi.Services.User;
 import com.parrot.parrotapi.Domain.Post;
 import com.parrot.parrotapi.Infrastructure.IUserRepository;
 import com.parrot.parrotapi.Domain.User;
+import com.parrot.parrotapi.Services.Post.CreatePostRequest;
 import com.parrot.parrotapi.Services.Post.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -53,5 +55,26 @@ public class UserService implements IUserService {
 
     public List<Post> getPostsByUser(UUID userId){
         return _postService.getPostsByUser(userId);
+    }
+
+    public void followOrUnfollowUser(UUID userId, FollowOrUnfollowUserRequest request){
+        var optionalUser = _userRepository.findById(request.getId());
+        User userFollowing = optionalUser.orElseThrow(() -> new NoSuchElementException("Usuário não encontrado"));
+        userFollowing.followOrUnfollowUser(userId);
+        _userRepository.save(userFollowing);
+    }
+
+    public void addOrRemoveFollower(UUID userId, FollowOrUnfollowUserRequest request){
+        var optionalUser = _userRepository.findById(userId);
+        User userFollower = optionalUser.orElseThrow(() -> new NoSuchElementException("Usuário não encontrado"));
+        userFollower.addOrRemoveFollower(request.getId());
+        _userRepository.save(userFollower);
+    }
+
+    public void addPost(Post post){
+        var optionalUser = _userRepository.findById(post.getUserId());
+        User user = optionalUser.orElseThrow(() -> new NoSuchElementException("Usuário não encontrado"));
+        user.addPost(post);
+        _userRepository.save(user);
     }
 }
