@@ -26,10 +26,16 @@ public class UserService implements IUserService {
     private PostService _postService;
 
     public String createUser(CreateUserRequest request) {
-        var user = new User(request.name, request.email, request.password);
-        _userRepository.save(user);
 
-        return user.getId().toString();
+        if(_userRepository.findUserByEmail(request.email) != null){
+            throw new RuntimeException("Este Usuário já existe.");
+
+        } else {
+            var user = new User(request.name, request.email, request.password);
+            _userRepository.save(user);
+
+            return user.getId().toString();
+        }
     }
 
     public List<GetUsersRequest> getUsers() {
@@ -71,10 +77,20 @@ public class UserService implements IUserService {
         _userRepository.save(userFollower);
     }
 
-    public void addPost(Post post){
-        var optionalUser = _userRepository.findById(post.getUserId());
-        User user = optionalUser.orElseThrow(() -> new NoSuchElementException("Usuário não encontrado"));
-        user.addPost(post);
-        _userRepository.save(user);
+//    public void addPost(Post post){
+//        var optionalUser = _userRepository.findById(post.getUserId());
+//        User user = optionalUser.orElseThrow(() -> new NoSuchElementException("Usuário não encontrado"));
+//        user.addPost(post);
+//        _userRepository.save(user);
+//    }
+
+    public FindUserResponse findUserByEmail(String email){
+        var user = _userRepository.findUserByEmail(email);
+        var response = new FindUserResponse(user.getId(), user.getName(), user.getPhoto(), user.getEmail());
+        return response;
+    }
+
+    public User getUser(String email){
+        return _userRepository.findUserByEmail(email);
     }
 }

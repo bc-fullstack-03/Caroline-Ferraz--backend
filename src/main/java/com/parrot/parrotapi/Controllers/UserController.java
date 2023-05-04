@@ -1,6 +1,7 @@
 package com.parrot.parrotapi.Controllers;
 
 import com.parrot.parrotapi.Domain.Post;
+import com.parrot.parrotapi.Services.Security.IJwtService;
 import com.parrot.parrotapi.Services.User.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
