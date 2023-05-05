@@ -4,6 +4,7 @@ import com.parrot.parrotapi.Domain.Post;
 import com.parrot.parrotapi.Infrastructure.IUserRepository;
 import com.parrot.parrotapi.Domain.User;
 import com.parrot.parrotapi.Services.Post.CreatePostRequest;
+import com.parrot.parrotapi.Services.Post.IPostService;
 import com.parrot.parrotapi.Services.Post.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -24,7 +25,7 @@ public class UserService implements IUserService {
     private IUserRepository _userRepository;
 
     @Autowired
-    private PostService _postService;
+    private IPostService _postService;
 
     @Autowired
     private PasswordEncoder _passwordEncoder;
@@ -61,7 +62,7 @@ public class UserService implements IUserService {
     public GetUserByIdRequest getUserById(UUID id){
         var optionalUser = _userRepository.findById(id);
         User user = optionalUser.orElseThrow(() -> new NoSuchElementException("Usuário não encontrado"));
-        return new GetUserByIdRequest(user.getId(), user.getName(), user.getPhoto(), user.getPosts(), user.getFriends(), user.getFollowing(), user.getFollowers());
+        return new GetUserByIdRequest(user.getId(), user.getName(), user.getPhoto(), user.getFollowing(), user.getFollowers());
     }
 
     public List<Post> getPostsByUser(UUID userId){

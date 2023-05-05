@@ -21,8 +21,8 @@ public class User {
     private String photo;
     private String email;
     private String password;
-    private List<Post> posts;
-    private List<UUID> friends; // id's of the users that are friends
+    //private List<Post> posts;
+    //private List<UUID> friends; // id's of the users that are friends
     private List<UUID> following; // id's of the users that the user is following
     private List<UUID> followers; // id's of the users that are followers
 
@@ -32,8 +32,8 @@ public class User {
         this.setPhoto();
         this.email = email;
         this.password = password;
-        this.posts = new ArrayList<Post>();
-        this.friends = new ArrayList<UUID>();
+        //this.posts = new ArrayList<Post>();
+        //this.friends = new ArrayList<UUID>();
         this.following = new ArrayList<UUID>();
         this.followers = new ArrayList<UUID>();
     }
@@ -88,9 +88,9 @@ public class User {
         }
     }
 
-    public void addPost(Post post){
-        this.posts.add(post);
-    }
+//    public void addPost(Post post){
+//        this.posts.add(post);
+//    }
 
 
 

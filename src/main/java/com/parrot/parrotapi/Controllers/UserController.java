@@ -25,12 +25,12 @@ public class UserController {
     @Autowired
     private IJwtService _jwtService;
 
-    @PostMapping
+    @PostMapping("/create")
     @Transactional
     public ResponseEntity<String> createUser(@RequestBody @Valid CreateUserRequest request){
-        if(!_jwtService.isValidToken(getToken(), getUserId())){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not authenticated");
-        }
+//        if(!_jwtService.isValidToken(getToken(), getUserId())){
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário não autenticado.");
+//        }
 
         var response = _userService.createUser(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
