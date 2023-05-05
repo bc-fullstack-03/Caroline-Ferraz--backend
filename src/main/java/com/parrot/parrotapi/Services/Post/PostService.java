@@ -3,7 +3,9 @@ package com.parrot.parrotapi.Services.Post;
 import com.parrot.parrotapi.Domain.Comment;
 import com.parrot.parrotapi.Domain.Post;
 import com.parrot.parrotapi.Infrastructure.IPostRepository;
+import com.parrot.parrotapi.Services.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,9 +18,13 @@ public class PostService implements IPostService {
     @Autowired
     private IPostRepository _postRepository;
 
+//    @Autowired
+//    private UserService _userService;
+
     public String createPost(CreatePostRequest request){
         var post = new Post(request.userId, request.description, request.photo);
         _postRepository.save(post);
+        //_userService.addPost(post);
         return post.getId().toString();
     }
 
@@ -71,6 +77,10 @@ public class PostService implements IPostService {
         Post post = optionalPost.orElseThrow(() -> new NoSuchElementException("Post não encontrado"));
         post.likeOrDislikePost(request.userLike);
         _postRepository.save(post);
+    }
+
+    public List<Post> getPostsByUser(UUID userId){
+        return _postRepository.findAllByUserId(userId);
     }
 
 }

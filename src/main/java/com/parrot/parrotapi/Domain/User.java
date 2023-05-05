@@ -1,5 +1,6 @@
 package com.parrot.parrotapi.Domain;
 
+import com.parrot.parrotapi.Services.User.FindUserResponse;
 import com.parrot.parrotapi.Services.User.UpdateUserRequest;
 import lombok.*;
 import org.springframework.data.annotation.Id;
@@ -37,6 +38,13 @@ public class User {
         this.followers = new ArrayList<UUID>();
     }
 
+//    public User(FindUserResponse findUserResponse){
+//        this.id = findUserResponse.id;
+//        this.name = findUserResponse.name;
+//        this.photo = findUserResponse.photo;
+//        this.email = findUserResponse.email;
+//    }
+
     protected void setId(){
         this.id = UUID.randomUUID();
     }
@@ -61,5 +69,29 @@ public class User {
             this.password = data.getPassword();
         }
     }
+
+    public void followOrUnfollowUser(UUID userId){
+        if(following.contains(userId)) {
+            following.remove(userId);
+        }
+        else {
+            this.following.add(userId);
+        }
+    }
+
+    public void addOrRemoveFollower(UUID id){
+        if(followers.contains(id)) {
+            followers.remove(id);
+        }
+        else {
+            this.followers.add(id);
+        }
+    }
+
+    public void addPost(Post post){
+        this.posts.add(post);
+    }
+
+
 
 }
