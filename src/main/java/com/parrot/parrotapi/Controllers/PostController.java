@@ -1,5 +1,6 @@
 package com.parrot.parrotapi.Controllers;
 
+import com.parrot.parrotapi.Domain.Comment;
 import com.parrot.parrotapi.Services.Post.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,4 +47,29 @@ public class PostController {
         var response = _postService.getPostById(id);
         return ResponseEntity.ok(response);
     }
+
+    @PutMapping("/comment")
+    public ResponseEntity addComment(@RequestBody @Valid Comment request){
+        _postService.addComment(request);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{postId}/comment/{id}")
+    public ResponseEntity removeComment(@PathVariable UUID postId, @PathVariable UUID id){
+        _postService.removeComment(postId, id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/like")
+    public ResponseEntity likePost(@RequestBody LikeOrDislikePostRequest request){
+        _postService.likeOrDislikePost(request);
+        return ResponseEntity.ok().build();
+    }
+
+    // definir método para se tornar amigo
+
+    // definir método para se tornar seguidor
+
+    // definir método para seguir
+
 }

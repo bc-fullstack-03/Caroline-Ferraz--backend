@@ -1,7 +1,6 @@
 package com.parrot.parrotapi.Services.Post;
 
 import com.parrot.parrotapi.Domain.Post;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDateTime;

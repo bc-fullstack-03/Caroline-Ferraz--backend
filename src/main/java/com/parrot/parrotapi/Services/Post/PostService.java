@@ -2,14 +2,10 @@ package com.parrot.parrotapi.Services.Post;
 
 import com.parrot.parrotapi.Domain.Comment;
 import com.parrot.parrotapi.Domain.Post;
-import com.parrot.parrotapi.Domain.User;
 import com.parrot.parrotapi.Infrastructure.IPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -32,7 +28,7 @@ public class PostService implements IPostService {
 
     public void updatePost(UpdatePostRequest request){
         var optionalPost = _postRepository.findById(request.getId());
-        Post post = optionalPost.orElseThrow(() -> new NoSuchElementException("Usuário não encontrado"));
+        Post post = optionalPost.orElseThrow(() -> new NoSuchElementException("Post não encontrado"));
         post.updatePostData(request);
         _postRepository.save(post);
     }
@@ -51,7 +47,30 @@ public class PostService implements IPostService {
                 post.getDescription(),
                 post.getPhoto(),
                 post.getLikes(),
-                post.getComment()
+                post.getComments()
         );
     }
+
+    public void addComment(Comment request){
+        var optionalPost = _postRepository.findById(request.getPostId());
+        Post post = optionalPost.orElseThrow(() -> new NoSuchElementException("Post não encontrado"));
+        post.addComment(request);
+        _postRepository.save(post);
+    }
+
+    public void removeComment(UUID postId, UUID id){
+        var optionalPost = _postRepository.findById(postId);
+        Post post = optionalPost.orElseThrow(() -> new NoSuchElementException("Post não encontrado"));
+        var comments = post.getComments();
+        post.removeComment(comments, id);
+        _postRepository.save(post);
+    }
+
+    public void likeOrDislikePost(LikeOrDislikePostRequest request){
+        var optionalPost = _postRepository.findById(request.postId);
+        Post post = optionalPost.orElseThrow(() -> new NoSuchElementException("Post não encontrado"));
+        post.likeOrDislikePost(request.userLike);
+        _postRepository.save(post);
+    }
+
 }

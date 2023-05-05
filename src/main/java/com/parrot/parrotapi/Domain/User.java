@@ -1,12 +1,11 @@
 package com.parrot.parrotapi.Domain;
 
-import com.parrot.parrotapi.Services.User.GetUserByIdRequest;
 import com.parrot.parrotapi.Services.User.UpdateUserRequest;
 import lombok.*;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,12 +20,10 @@ public class User {
     private String photo;
     private String email;
     private String password;
-    @DBRef
-    private List<User> friends;
-    @DBRef
-    private List<User> following;
-    @DBRef
-    private List<User> followers;
+    private List<Post> posts;
+    private List<UUID> friends; // id's of the users that are friends
+    private List<UUID> following; // id's of the users that the user is following
+    private List<UUID> followers; // id's of the users that are followers
 
     public User(String name, String email, String password){
         this.setId();
@@ -34,6 +31,10 @@ public class User {
         this.setPhoto();
         this.email = email;
         this.password = password;
+        this.posts = new ArrayList<Post>();
+        this.friends = new ArrayList<UUID>();
+        this.following = new ArrayList<UUID>();
+        this.followers = new ArrayList<UUID>();
     }
 
     protected void setId(){
