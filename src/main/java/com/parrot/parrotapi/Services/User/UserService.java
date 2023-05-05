@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,13 +26,17 @@ public class UserService implements IUserService {
     @Autowired
     private PostService _postService;
 
+    @Autowired
+    private PasswordEncoder _passwordEncoder;
+
     public String createUser(CreateUserRequest request) {
 
         if(_userRepository.findUserByEmail(request.email) != null){
             throw new RuntimeException("Este Usuário já existe.");
-
         } else {
-            var user = new User(request.name, request.email, request.password);
+            var hash = _passwordEncoder.encode(request.password);
+            var user = new User(request.name, request.email, hash);
+
             _userRepository.save(user);
 
             return user.getId().toString();

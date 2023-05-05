@@ -26,7 +26,7 @@ public class JwtService implements IJwtService {
                 .compact();
     }
 
-    public boolean isValidToken(String token, UUID userId){
+    public boolean isValidToken(String token, String userId){
         var claims = Jwts
                 .parserBuilder()
                 .setSigningKey(genSignInKey())
@@ -38,7 +38,7 @@ public class JwtService implements IJwtService {
 
         var tExpiration = claims.getExpiration();
 
-        return (sub.equals(userId.toString()) && !tExpiration.before(new Date()));
+        return (sub.equals(userId) && !tExpiration.before(new Date()));
     }
 
     private Key genSignInKey(){
