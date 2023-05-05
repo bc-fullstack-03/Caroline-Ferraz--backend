@@ -7,10 +7,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.UUID;
 
+@Component
 public class AuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
@@ -23,9 +28,15 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         if(request.getServletPath().contains("api/v1/authentication")){
             filterChain.doFilter(request, response);
+            return;
+        }
+        if(request.getServletPath().contains("api/v1/user/create")) {
+            filterChain.doFilter(request, response);
+            return;
         }
         if(request.getServletPath().contains("swagger") || request.getServletPath().contains("docs")){
             filterChain.doFilter(request, response);
+            return;
         }
 
         var token = request.getHeader("Authorization");
@@ -34,15 +45,35 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         if(token == null || userId == null || !token.startsWith("Bearer ")){
             response.getWriter().write("Credenciais inválidas.");
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            return;
         }
 
-        boolean isInvalidToken = false;
+        boolean isValidToken = false;
 
         try {
-            isInvalidToken = _jwtService.isValidToken(token.substring(7), userId);
+            isValidToken = _jwtService.isValidToken(token.substring(7), userId);
         } catch (Exception e) {
             response.getWriter().write(e.getMessage());
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            return;
         }
+
+        if(isValidToken){
+            try{
+                var user = _userService.getUserById(UUID.fromString(userId));
+                var authentication = new UsernamePasswordAuthenticationToken(user, null, null);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            } catch (Exception e){
+                response.getWriter().write(e.getMessage());
+                response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                return;
+            }
+        } else {
+            response.getWriter().write("Token inválido.");
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            return;
+        }
+
+        filterChain.doFilter(request, response);
     }
 }
