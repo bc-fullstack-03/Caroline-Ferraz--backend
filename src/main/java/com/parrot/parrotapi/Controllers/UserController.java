@@ -89,10 +89,10 @@ public class UserController {
         }
     }
 
-    public String getToken(){
-        var jwt = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getHeader(("Authorization"));
-        return jwt.substring(7);
-    }
+//    public String getToken(){
+//        var jwt = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getHeader(("Authorization"));
+//        return jwt.substring(7);
+//    }
 
     public String getUserId(){
         return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getHeader(("UserId"));
