@@ -35,7 +35,6 @@ public class UserController {
 //        if(!_jwtService.isValidToken(getToken(), getUserId())){
 //            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário não autenticado.");
 //        }
-
         var response = _userService.createUser(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -61,14 +60,14 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GetUserByIdRequest> getUserById(@PathVariable UUID id){
+    public ResponseEntity<GetUserByIdResponse> getUserById(@PathVariable UUID id){
         var user = _userService.getUserById(id);
         return ResponseEntity.ok(user);
     }
 
     @GetMapping("/{id}/posts")
-    public ResponseEntity<List<Post>> getPostsByUser(@PathVariable UUID id){
-        var posts =  _userService.getPostsByUser(id);
+    public ResponseEntity<Page<Post>> getPostsByUser(@PathVariable UUID id, @PageableDefault(size = 10, sort = {"timestamp"}) Pageable pageable){
+        var posts =  _userService.getPostsByUser(id, pageable);
         return ResponseEntity.ok(posts);
     }
 

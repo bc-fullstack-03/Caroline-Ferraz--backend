@@ -6,6 +6,8 @@ import com.parrot.parrotapi.Infrastructure.IPostRepository;
 import com.parrot.parrotapi.Services.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,9 +19,6 @@ public class PostService implements IPostService {
 
     @Autowired
     private IPostRepository _postRepository;
-
-//    @Autowired
-//    private UserService _userService;
 
     public String createPost(CreatePostRequest request){
         var post = new Post(request.userId, request.description, request.photo);
@@ -79,8 +78,8 @@ public class PostService implements IPostService {
         _postRepository.save(post);
     }
 
-    public List<Post> getPostsByUser(UUID userId){
-        return _postRepository.findAllByUserId(userId);
+    public Page<Post> getPostsByUser(UUID userId, Pageable pageable){
+        return _postRepository.findAllByUserId(userId, pageable);
     }
 
 }

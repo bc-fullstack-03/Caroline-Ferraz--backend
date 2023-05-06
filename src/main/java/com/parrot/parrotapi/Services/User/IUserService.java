@@ -19,17 +19,15 @@ public interface IUserService {
 
     void deleteUser(UUID id);
 
-    GetUserByIdRequest getUserById(UUID id);
+    GetUserByIdResponse getUserById(UUID id);
 
-    List<Post> getPostsByUser(UUID userId);
+    Page<Post> getPostsByUser(UUID userId, Pageable pageable);
 
     void followOrUnfollowUser(UUID userId, FollowOrUnfollowUserRequest request);
 
     void addOrRemoveFollower(UUID userId, FollowOrUnfollowUserRequest request);
 
-    //void addPost(Post post);
-
-    FindUserResponse findUserByEmail(String email);
+    //FindUserResponse findUserByEmail(String email);
 
     User getUser(String email);
 

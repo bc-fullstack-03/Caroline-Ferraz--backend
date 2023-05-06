@@ -22,6 +22,4 @@ public class CreateUserRequest {
     @NotBlank(message = "Este campo não pode estar em branco")
     @Size(min = 8, max=25, message = "A Senha deve ter no mínimo 8 e no máximo 25 caracteres")
     public String password;
-
-    //public UUID userCreated;
 }

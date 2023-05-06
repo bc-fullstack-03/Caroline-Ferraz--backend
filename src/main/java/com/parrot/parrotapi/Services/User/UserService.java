@@ -62,14 +62,14 @@ public class UserService implements IUserService {
         _userRepository.deleteById(id);
     }
 
-    public GetUserByIdRequest getUserById(UUID id){
+    public GetUserByIdResponse getUserById(UUID id){
         var optionalUser = _userRepository.findById(id);
         User user = optionalUser.orElseThrow(() -> new NoSuchElementException("Usuário não encontrado"));
-        return new GetUserByIdRequest(user.getId(), user.getName(), user.getPhoto(), user.getFollowing(), user.getFollowers());
+        return new GetUserByIdResponse(user.getId(), user.getName(), user.getPhoto(), user.getFollowing(), user.getFollowers());
     }
 
-    public List<Post> getPostsByUser(UUID userId){
-        return _postService.getPostsByUser(userId);
+    public Page<Post> getPostsByUser(UUID userId, Pageable pageable){
+        return _postService.getPostsByUser(userId, pageable);
     }
 
     public void followOrUnfollowUser(UUID userId, FollowOrUnfollowUserRequest request){
@@ -86,18 +86,11 @@ public class UserService implements IUserService {
         _userRepository.save(userFollower);
     }
 
-//    public void addPost(Post post){
-//        var optionalUser = _userRepository.findById(post.getUserId());
-//        User user = optionalUser.orElseThrow(() -> new NoSuchElementException("Usuário não encontrado"));
-//        user.addPost(post);
-//        _userRepository.save(user);
+//    public FindUserResponse findUserByEmail(String email){
+//        var user = _userRepository.findUserByEmail(email);
+//        var response = new FindUserResponse(user.getId(), user.getName(), user.getPhoto(), user.getEmail());
+//        return response;
 //    }
-
-    public FindUserResponse findUserByEmail(String email){
-        var user = _userRepository.findUserByEmail(email);
-        var response = new FindUserResponse(user.getId(), user.getName(), user.getPhoto(), user.getEmail());
-        return response;
-    }
 
     public User getUser(String email){
         return _userRepository.findUserByEmail(email);
