@@ -3,6 +3,7 @@ package com.parrot.parrotapi.Services.User;
 import com.parrot.parrotapi.Domain.Post;
 import com.parrot.parrotapi.Infrastructure.IUserRepository;
 import com.parrot.parrotapi.Domain.User;
+import com.parrot.parrotapi.Services.FileUpload.IFileUploadService;
 import com.parrot.parrotapi.Services.Post.CreatePostRequest;
 import com.parrot.parrotapi.Services.Post.IPostService;
 import com.parrot.parrotapi.Services.Post.PostService;
@@ -11,8 +12,10 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -29,6 +32,9 @@ public class UserService implements IUserService {
 
     @Autowired
     private PasswordEncoder _passwordEncoder;
+
+    @Autowired
+    private IFileUploadService _fileUploadService;
 
     public String createUser(CreateUserRequest request) {
 
@@ -98,5 +104,19 @@ public class UserService implements IUserService {
 
     public User getUser(String email){
         return _userRepository.findUserByEmail(email);
+    }
+
+    public void uploadPhotoProfile(MultipartFile photoFile) throws Exception {
+        var user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        var photo = "";
+        try{
+            var fileName = user.getId() + "." + photoFile.getOriginalFilename().substring(photoFile.getOriginalFilename().lastIndexOf(".") + 1);
+            photo = _fileUploadService.upload(photoFile, fileName);
+
+        } catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
+        user.setPhoto(photo);
+        _userRepository.save(user);
     }
 }

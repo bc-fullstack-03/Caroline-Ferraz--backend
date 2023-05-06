@@ -4,6 +4,7 @@ import com.parrot.parrotapi.Domain.Post;
 import com.parrot.parrotapi.Domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -31,4 +32,6 @@ public interface IUserService {
     FindUserResponse findUserByEmail(String email);
 
     User getUser(String email);
+
+    void uploadPhotoProfile(MultipartFile photoFile) throws Exception;
 }

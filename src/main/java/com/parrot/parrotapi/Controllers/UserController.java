@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -68,11 +69,22 @@ public class UserController {
         return ResponseEntity.ok(posts);
     }
 
-    @PutMapping("{userId}")
+    @PutMapping("/{userId}")
     public ResponseEntity followOrUnfollowUser(@PathVariable UUID userId, @RequestBody FollowOrUnfollowUserRequest id){
         _userService.followOrUnfollowUser(userId, id);
         _userService.addOrRemoveFollower(userId, id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/uploadPhoto")
+    public ResponseEntity uploadPhotoProfile(@RequestParam("photo") MultipartFile photoFile){
+        try {
+            _userService.uploadPhotoProfile(photoFile);
+            return new ResponseEntity(HttpStatus.OK);
+
+        } catch(Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     public String getToken(){
