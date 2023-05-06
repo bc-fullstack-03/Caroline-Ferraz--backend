@@ -4,14 +4,10 @@ import com.parrot.parrotapi.Domain.Post;
 import com.parrot.parrotapi.Infrastructure.IUserRepository;
 import com.parrot.parrotapi.Domain.User;
 import com.parrot.parrotapi.Services.FileUpload.IFileUploadService;
-import com.parrot.parrotapi.Services.Post.CreatePostRequest;
 import com.parrot.parrotapi.Services.Post.IPostService;
-import com.parrot.parrotapi.Services.Post.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -50,8 +46,9 @@ public class UserService implements IUserService {
         }
     }
 
-    public List<GetUsersRequest> getUsers() {
-        return _userRepository.findAll().stream().map(GetUsersRequest::new).toList();
+    public Page<GetUsersResponse> getUsers(Pageable pageable) {
+        var response = _userRepository.findAll(pageable).map(GetUsersResponse::new);
+        return response;
     }
 
     public void updateUser(UpdateUserRequest request) {

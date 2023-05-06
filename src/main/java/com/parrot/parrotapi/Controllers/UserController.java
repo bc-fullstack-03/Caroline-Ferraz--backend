@@ -5,6 +5,9 @@ import com.parrot.parrotapi.Services.Security.IJwtService;
 import com.parrot.parrotapi.Services.User.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,8 +41,8 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<GetUsersRequest>> getUsers(){
-        var response = _userService.getUsers();
+    public ResponseEntity<Page<GetUsersResponse>> getUsers(@PageableDefault(size = 10, sort = {"name"}) Pageable pageable){
+        var response = _userService.getUsers(pageable);
         return ResponseEntity.ok(response);
     }
 

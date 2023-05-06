@@ -13,7 +13,7 @@ public interface IUserService {
 
     String createUser(CreateUserRequest request);
 
-    List<GetUsersRequest> getUsers();
+    Page<GetUsersResponse> getUsers(Pageable pageable);
 
     void updateUser(UpdateUserRequest request);
 

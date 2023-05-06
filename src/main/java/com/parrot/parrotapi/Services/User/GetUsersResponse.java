@@ -6,13 +6,13 @@ import lombok.Data;
 import java.util.UUID;
 
 @Data
-public class GetUsersRequest {
+public class GetUsersResponse {
 
     private UUID id;
     private String name;
     private String photo;
 
-    public GetUsersRequest(User user){
+    public GetUsersResponse(User user){
         this.id = user.getId();
         this.name = user.getName();
         this.photo = user.getPhoto();
