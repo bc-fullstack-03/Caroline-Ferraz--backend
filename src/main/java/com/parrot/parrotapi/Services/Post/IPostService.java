@@ -5,14 +5,13 @@ import com.parrot.parrotapi.Domain.Post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface IPostService {
 
     String createPost(CreatePostRequest request);
 
-    List<GetPostsRequest> getPosts();
+    Page<GetPostsResponse> getPosts(Pageable pageable);
 
     void updatePost(UpdatePostRequest request);
 

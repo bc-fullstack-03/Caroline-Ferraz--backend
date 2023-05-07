@@ -3,14 +3,11 @@ package com.parrot.parrotapi.Services.Post;
 import com.parrot.parrotapi.Domain.Comment;
 import com.parrot.parrotapi.Domain.Post;
 import com.parrot.parrotapi.Infrastructure.IPostRepository;
-import com.parrot.parrotapi.Services.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
@@ -23,12 +20,11 @@ public class PostService implements IPostService {
     public String createPost(CreatePostRequest request){
         var post = new Post(request.userId, request.description, request.photo);
         _postRepository.save(post);
-        //_userService.addPost(post);
         return post.getId().toString();
     }
 
-    public List<GetPostsRequest> getPosts(){
-        return _postRepository.findAll().stream().map(GetPostsRequest::new).toList();
+    public Page<GetPostsResponse> getPosts(Pageable pageable){
+        return _postRepository.findAll(pageable).map(GetPostsResponse::new);
     }
 
     public void updatePost(UpdatePostRequest request){
