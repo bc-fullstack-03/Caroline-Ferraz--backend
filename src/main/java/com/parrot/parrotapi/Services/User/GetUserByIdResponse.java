@@ -13,8 +13,6 @@ public class GetUserByIdResponse {
     private UUID id;
     private String name;
     private String photo;
-    //private List<Post> posts;
-    //private List<UUID> friends;
     private List<UUID> following;
     private List<UUID> followers;
 }
