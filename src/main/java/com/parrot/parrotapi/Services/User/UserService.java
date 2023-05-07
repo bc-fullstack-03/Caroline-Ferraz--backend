@@ -96,15 +96,17 @@ public class UserService implements IUserService {
     }
 
     public void uploadPhotoProfile(MultipartFile photoFile) throws Exception {
-        var user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        var id = ((GetUserByIdResponse) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         var photo = "";
         try{
-            var fileName = user.getId() + "." + photoFile.getOriginalFilename().substring(photoFile.getOriginalFilename().lastIndexOf(".") + 1);
+            var fileName = id + "." + photoFile.getOriginalFilename().substring(photoFile.getOriginalFilename().lastIndexOf(".") + 1);
             photo = _fileUploadService.upload(photoFile, fileName);
 
         } catch (Exception e){
             throw new Exception(e.getMessage());
         }
+        var optionalUser = _userRepository.findById(id);
+        User user = optionalUser.orElseThrow(() -> new NoSuchElementException("Usuário não encontrado"));
         user.setPhoto(photo);
         _userRepository.save(user);
     }
