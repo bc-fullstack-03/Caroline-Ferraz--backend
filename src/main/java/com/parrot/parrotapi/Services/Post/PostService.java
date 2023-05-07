@@ -14,6 +14,7 @@ import java.util.UUID;
 @Service
 public class PostService implements IPostService {
 
+
     @Autowired
     private IPostRepository _postRepository;
 
@@ -38,10 +39,10 @@ public class PostService implements IPostService {
         _postRepository.deleteById(id);
     }
 
-    public GetPostByIdRequest getPostById(UUID id) {
+    public GetPostByIdResponse getPostById(UUID id) {
         var optionalPost = _postRepository.findById(id);
         Post post = optionalPost.orElseThrow(() -> new NoSuchElementException("Post não encontrado"));
-        return new GetPostByIdRequest(
+        return new GetPostByIdResponse(
                 post.getId(),
                 post.getUserId(),
                 post.getTimestamp(),

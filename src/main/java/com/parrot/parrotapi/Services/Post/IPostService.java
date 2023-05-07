@@ -17,7 +17,7 @@ public interface IPostService {
 
     void deletePost(UUID id);
 
-    GetPostByIdRequest getPostById(UUID id);
+    GetPostByIdResponse getPostById(UUID id);
 
     void addComment(Comment request);
 

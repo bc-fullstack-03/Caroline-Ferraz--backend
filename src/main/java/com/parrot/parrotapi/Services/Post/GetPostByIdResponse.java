@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Data
 @AllArgsConstructor
-public class GetPostByIdRequest {
+public class GetPostByIdResponse {
 
     private UUID id;
     private UUID userId;

@@ -45,7 +45,7 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GetPostByIdRequest> getPostById(@PathVariable UUID id){
+    public ResponseEntity<GetPostByIdResponse> getPostById(@PathVariable UUID id){
         var response = _postService.getPostById(id);
         return ResponseEntity.ok(response);
     }
@@ -67,15 +67,4 @@ public class PostController {
         _postService.likeOrDislikePost(request);
         return ResponseEntity.ok().build();
     }
-
-    // refatorar métodos get all de postagens, da seguinte maneira:
-        // 1 - retornar postagens por user id
-        // 2 - retornar postagens de usuários que são amigos (feed)
-
-    // definir método para se tornar amigo
-
-    // definir método para se tornar seguidor
-
-    // definir método para seguir
-
 }
