@@ -4,7 +4,7 @@
 <p>Repositório destinado ao versionamento e compartilhamento dos códigos referentes ao backend da aplicação <b>Parrot</b>, feita durante o bootcamp de desenvolvimento full stack promovido pela Sysmap Solutions.</p>
 
 <h2>🎯 Objetivos:</h2>
-<p>O objetivo central do projeto foi desenvolver uma solução funcional para o backend de um Blog, que atendesse a um <a href="https://www.figma.com/file/vepLgESqoFwshCzJ5lqPkn/bootcamp-2?node-id=0-1&t=KmvWdbESuj29VN4r-0">modelo figma</a> pré-estabelecido e que aplicasse o máximo possível dos princípios/conceitos de desenvolvimento de software abordados durante as aulas. Dentre os requisitos mínimos, foi solicitado que o upload de fotos fosse feito via localstack, a documentação da API fosse feita com o Swagger e que ao final fosse utilizado um arquivo docker-compose.yml para orquestrar os serviços utilizados e subir a imagem da aplicação para o Docker Hub.</P>
+<p>O objetivo central do projeto foi desenvolver uma solução funcional para o backend de um Blog, que atendesse a um <a href="https://www.figma.com/file/vepLgESqoFwshCzJ5lqPkn/bootcamp-2?node-id=0-1&t=KmvWdbESuj29VN4r-0">modelo figma</a> pré-estabelecido e que aplicasse o máximo possível dos princípios/conceitos de desenvolvimento de software abordados durante as aulas. Dentre os requisitos mínimos, foram solicitados a implementação de autenticação de usuário com token JWT, o upload de fotos utilizando o LocalStack, a documentação da API utilizando o Swagger e que ao final fosse utilizado um arquivo docker-compose.yml para orquestrar os serviços utilizados e subir a imagem da aplicação para o Docker Hub.</P>
 
 <h2>🛠 Tecnologias utilizadas:</h2>
 <p align="center">
