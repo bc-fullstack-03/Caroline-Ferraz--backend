@@ -59,9 +59,9 @@ public class UserController {
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity followOrUnfollowUser(@PathVariable UUID userId, @RequestBody FollowOrUnfollowUserRequest id){
-        _userService.followOrUnfollowUser(userId, id);
-        _userService.addOrRemoveFollower(userId, id);
+    public ResponseEntity followOrUnfollowUser(@PathVariable UUID userId){
+        _userService.followOrUnfollowUser(userId);
+        _userService.addOrRemoveFollower(userId);
         return ResponseEntity.noContent().build();
     }
 

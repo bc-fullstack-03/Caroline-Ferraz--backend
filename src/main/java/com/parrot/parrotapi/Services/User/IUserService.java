@@ -20,9 +20,9 @@ public interface IUserService {
 
     GetUserByIdResponse getUserById(UUID id);
 
-    void followOrUnfollowUser(UUID userId, FollowOrUnfollowUserRequest request);
+    void followOrUnfollowUser(UUID userId);
 
-    void addOrRemoveFollower(UUID userId, FollowOrUnfollowUserRequest request);
+    void addOrRemoveFollower(UUID userId);
 
     User getUser(String email);
 

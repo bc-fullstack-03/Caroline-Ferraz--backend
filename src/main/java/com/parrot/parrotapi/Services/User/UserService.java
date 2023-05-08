@@ -70,15 +70,17 @@ public class UserService implements IUserService {
         return new GetUserByIdResponse(user.getId(), user.getName(), user.getPhoto(), user.getFollowing(), user.getFollowers());
     }
 
-    public void followOrUnfollowUser(UUID userId, FollowOrUnfollowUserRequest request){
-        var userFollowing = this.getUserByUserId(request.getId());
+    public void followOrUnfollowUser(UUID userId){
+        var id = this.getUserBySecurityContextHolder().getId();
+        var userFollowing = this.getUserByUserId(id);
         userFollowing.followOrUnfollowUser(userId);
         _userRepository.save(userFollowing);
     }
 
-    public void addOrRemoveFollower(UUID userId, FollowOrUnfollowUserRequest request){
+    public void addOrRemoveFollower(UUID userId){
+        var id = this.getUserBySecurityContextHolder().getId();
         var userFollower = this.getUserByUserId(userId);
-        userFollower.addOrRemoveFollower(request.getId());
+        userFollower.addOrRemoveFollower(id);
         _userRepository.save(userFollower);
     }
 
