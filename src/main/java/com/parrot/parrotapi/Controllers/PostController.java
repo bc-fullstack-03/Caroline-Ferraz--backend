@@ -1,6 +1,7 @@
 package com.parrot.parrotapi.Controllers;
 
 import com.parrot.parrotapi.Domain.Comment;
+import com.parrot.parrotapi.Domain.Post;
 import com.parrot.parrotapi.Services.Post.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
@@ -18,13 +20,19 @@ import java.util.UUID;
 public class PostController {
 
     @Autowired
-    private PostService _postService;
+    private IPostService _postService;
 
     @PostMapping
     public ResponseEntity<String> createPost(@RequestBody @Valid CreatePostRequest request){
         var response = _postService.createPost(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
+//    @PostMapping
+//    public ResponseEntity<String> createPost(@RequestBody @Valid CreatePostRequest request, @RequestParam("photo") MultipartFile photoPost) throws Exception {
+//        var response = _postService.createPost(request, photoPost);
+//        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+//    }
 
     @GetMapping
     public ResponseEntity<Page<GetPostsResponse>> getPosts(@PageableDefault(size = 10, sort = {"timestamp"}) Pageable pageable){
@@ -66,5 +74,16 @@ public class PostController {
     public ResponseEntity likePost(@RequestBody LikeOrDislikePostRequest request){
         _postService.likeOrDislikePost(request);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/postsByUser/{userId}")
+    public ResponseEntity<Page<Post>> getPostsByUser(@PathVariable UUID userId, @PageableDefault(size = 10, sort = {"timestamp"}) Pageable pageable){
+        var posts =  _postService.getPostsByUser(userId, pageable);
+        return ResponseEntity.ok(posts);
+    }
+
+    @GetMapping("/feed")
+    public Page<Post> getPostsbyUserFollowing(@PageableDefault(size = 10, sort = {"timestamp"}) Pageable pageable){
+        return _postService.getPostsbyUserFollowing(pageable);
     }
 }
