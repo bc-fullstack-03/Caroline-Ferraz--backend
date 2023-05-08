@@ -1,11 +1,8 @@
 package com.parrot.parrotapi.Domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.parrot.parrotapi.Services.Post.UpdatePostRequest;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,7 +10,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Data
-//@Document
 public class Post {
 
     @Id
@@ -23,8 +19,6 @@ public class Post {
     private String description;
     private String photo;
     private List<UUID> likes; // id's of the users that liked the post
-    //@DBRef(lazy = true)
-    //@JsonManagedReference
     private List<Comment> comments;
 
     public Post(UUID userId, String description, String photo){

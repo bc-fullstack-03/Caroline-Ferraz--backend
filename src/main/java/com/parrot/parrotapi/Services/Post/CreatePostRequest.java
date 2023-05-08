@@ -1,7 +1,5 @@
 package com.parrot.parrotapi.Services.Post;
 
-import com.parrot.parrotapi.Domain.User;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -17,5 +15,4 @@ public class CreatePostRequest {
     public UUID userId;
     @Size(max=1000, message="O texto deve ter no máximo 1000 caracteres")
     public String description;
-    public String photo;
 }

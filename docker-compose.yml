@@ -1,5 +1,11 @@
 version: '3'
 services:
+  mongodb:
+    image: mongo:latest
+    container_name: "mongo_parrot"
+    ports:
+      - 27070:27017
+ 
   localstack:
     image: localstack/localstack
     container_name: localstack_parrot
@@ -14,3 +20,10 @@ services:
     volumes:
       - ./tmp/localstack:/tmp/localstack
       - /var/run/docker.sock:/var/run/docker.sock
+ 
+  parrot_backend:
+    image: carolineferraz/parrot_backend:latest
+    build: .
+    container_name: parrot_backend
+    ports:
+      - 8082:8082
