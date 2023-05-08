@@ -11,6 +11,7 @@ import java.util.UUID;
 public interface IUserRepository extends MongoRepository<User, UUID> {
 
     public User findUserByEmail(String email);
+
     @Query("{ 'name' : { $regex: ?0, $options: 'i' } }")
-    Page<User> findByNameIgnoreCase(String name, Pageable pageable);
+    public Page<User> findByNameIgnoreCase(String name, Pageable pageable);
 }
