@@ -45,9 +45,6 @@ public class User {
         if(data.getName() != null){
             this.name = data.getName();
         }
-        if(data.getPhoto() != null){
-            this.photo = data.getPhoto();
-        }
         if(data.getEmail() != null){
             this.email = data.getEmail();
         }
