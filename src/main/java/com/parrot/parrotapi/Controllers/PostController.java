@@ -4,11 +4,13 @@ import com.parrot.parrotapi.Domain.Comment;
 import com.parrot.parrotapi.Services.Post.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -25,8 +27,8 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<List<GetPostsRequest>> getPosts(){
-        var response = _postService.getPosts();
+    public ResponseEntity<Page<GetPostsResponse>> getPosts(@PageableDefault(size = 10, sort = {"timestamp"}) Pageable pageable){
+        var response = _postService.getPosts(pageable);
         return ResponseEntity.ok(response);
     }
 
@@ -43,7 +45,7 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GetPostByIdRequest> getPostById(@PathVariable UUID id){
+    public ResponseEntity<GetPostByIdResponse> getPostById(@PathVariable UUID id){
         var response = _postService.getPostById(id);
         return ResponseEntity.ok(response);
     }
@@ -65,15 +67,4 @@ public class PostController {
         _postService.likeOrDislikePost(request);
         return ResponseEntity.ok().build();
     }
-
-    // refatorar métodos get all de postagens, da seguinte maneira:
-        // 1 - retornar postagens por user id
-        // 2 - retornar postagens de usuários que são amigos (feed)
-
-    // definir método para se tornar amigo
-
-    // definir método para se tornar seguidor
-
-    // definir método para seguir
-
 }

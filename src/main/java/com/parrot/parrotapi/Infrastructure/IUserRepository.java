@@ -1,7 +1,6 @@
 package com.parrot.parrotapi.Infrastructure;
 
 import com.parrot.parrotapi.Domain.User;
-import com.parrot.parrotapi.Services.User.FindUserResponse;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.UUID;

@@ -4,20 +4,15 @@ import com.parrot.parrotapi.Domain.Post;
 import com.parrot.parrotapi.Infrastructure.IUserRepository;
 import com.parrot.parrotapi.Domain.User;
 import com.parrot.parrotapi.Services.FileUpload.IFileUploadService;
-import com.parrot.parrotapi.Services.Post.CreatePostRequest;
 import com.parrot.parrotapi.Services.Post.IPostService;
-import com.parrot.parrotapi.Services.Post.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
@@ -50,8 +45,9 @@ public class UserService implements IUserService {
         }
     }
 
-    public List<GetUsersRequest> getUsers() {
-        return _userRepository.findAll().stream().map(GetUsersRequest::new).toList();
+    public Page<GetUsersResponse> getUsers(Pageable pageable) {
+        var response = _userRepository.findAll(pageable).map(GetUsersResponse::new);
+        return response;
     }
 
     public void updateUser(UpdateUserRequest request) {
@@ -65,14 +61,14 @@ public class UserService implements IUserService {
         _userRepository.deleteById(id);
     }
 
-    public GetUserByIdRequest getUserById(UUID id){
+    public GetUserByIdResponse getUserById(UUID id){
         var optionalUser = _userRepository.findById(id);
         User user = optionalUser.orElseThrow(() -> new NoSuchElementException("Usuário não encontrado"));
-        return new GetUserByIdRequest(user.getId(), user.getName(), user.getPhoto(), user.getFollowing(), user.getFollowers());
+        return new GetUserByIdResponse(user.getId(), user.getName(), user.getPhoto(), user.getFollowing(), user.getFollowers());
     }
 
-    public List<Post> getPostsByUser(UUID userId){
-        return _postService.getPostsByUser(userId);
+    public Page<Post> getPostsByUser(UUID userId, Pageable pageable){
+        return _postService.getPostsByUser(userId, pageable);
     }
 
     public void followOrUnfollowUser(UUID userId, FollowOrUnfollowUserRequest request){
@@ -89,33 +85,28 @@ public class UserService implements IUserService {
         _userRepository.save(userFollower);
     }
 
-//    public void addPost(Post post){
-//        var optionalUser = _userRepository.findById(post.getUserId());
-//        User user = optionalUser.orElseThrow(() -> new NoSuchElementException("Usuário não encontrado"));
-//        user.addPost(post);
-//        _userRepository.save(user);
+//    public FindUserResponse findUserByEmail(String email){
+//        var user = _userRepository.findUserByEmail(email);
+//        var response = new FindUserResponse(user.getId(), user.getName(), user.getPhoto(), user.getEmail());
+//        return response;
 //    }
-
-    public FindUserResponse findUserByEmail(String email){
-        var user = _userRepository.findUserByEmail(email);
-        var response = new FindUserResponse(user.getId(), user.getName(), user.getPhoto(), user.getEmail());
-        return response;
-    }
 
     public User getUser(String email){
         return _userRepository.findUserByEmail(email);
     }
 
     public void uploadPhotoProfile(MultipartFile photoFile) throws Exception {
-        var user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        var id = ((GetUserByIdResponse) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         var photo = "";
         try{
-            var fileName = user.getId() + "." + photoFile.getOriginalFilename().substring(photoFile.getOriginalFilename().lastIndexOf(".") + 1);
+            var fileName = id + "." + photoFile.getOriginalFilename().substring(photoFile.getOriginalFilename().lastIndexOf(".") + 1);
             photo = _fileUploadService.upload(photoFile, fileName);
 
         } catch (Exception e){
             throw new Exception(e.getMessage());
         }
+        var optionalUser = _userRepository.findById(id);
+        User user = optionalUser.orElseThrow(() -> new NoSuchElementException("Usuário não encontrado"));
         user.setPhoto(photo);
         _userRepository.save(user);
     }

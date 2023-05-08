@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
-public class GetPostsRequest {
+public class GetPostsResponse {
 
     private UUID id;
     private UUID userId;
@@ -15,7 +15,7 @@ public class GetPostsRequest {
     private String description;
     private String photo;
 
-    public GetPostsRequest(Post post){
+    public GetPostsResponse(Post post){
         this.id = post.getId();
         this.userId = post.getUserId();
         this.timestamp = post.getTimestamp();
