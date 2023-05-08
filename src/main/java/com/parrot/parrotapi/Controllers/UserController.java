@@ -38,6 +38,12 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<Page<GetUsersResponse>> getUserByNameIgnoreCase(@RequestParam("name")String name, Pageable pageable){
+        var response = _userService.getUserByNameIgnoreCase(name, pageable);
+        return ResponseEntity.ok(response);
+    }
+
     @PutMapping
     @Transactional
     public ResponseEntity updateUser(@RequestBody @Valid UpdateUserRequest request){
