@@ -1,5 +1,6 @@
 package com.parrot.parrotapi.Services.User;
 
+import com.parrot.parrotapi.Domain.Post;
 import com.parrot.parrotapi.Infrastructure.IUserRepository;
 import com.parrot.parrotapi.Domain.User;
 import com.parrot.parrotapi.Services.FileUpload.IFileUploadService;
@@ -62,25 +63,21 @@ public class UserService implements IUserService {
 //        } else {
             _userRepository.deleteById(id);
 //        }
-
     }
 
     public GetUserByIdResponse getUserById(UUID id){
-        var optionalUser = _userRepository.findById(id);
-        User user = optionalUser.orElseThrow(() -> new NoSuchElementException("Usuário não encontrado"));
+        var user = this.getUserByUserId(id);
         return new GetUserByIdResponse(user.getId(), user.getName(), user.getPhoto(), user.getFollowing(), user.getFollowers());
     }
 
     public void followOrUnfollowUser(UUID userId, FollowOrUnfollowUserRequest request){
-        var optionalUser = _userRepository.findById(request.getId());
-        User userFollowing = optionalUser.orElseThrow(() -> new NoSuchElementException("Usuário não encontrado"));
+        var userFollowing = this.getUserByUserId(request.getId());
         userFollowing.followOrUnfollowUser(userId);
         _userRepository.save(userFollowing);
     }
 
     public void addOrRemoveFollower(UUID userId, FollowOrUnfollowUserRequest request){
-        var optionalUser = _userRepository.findById(userId);
-        User userFollower = optionalUser.orElseThrow(() -> new NoSuchElementException("Usuário não encontrado"));
+        var userFollower = this.getUserByUserId(userId);
         userFollower.addOrRemoveFollower(request.getId());
         _userRepository.save(userFollower);
     }
@@ -105,6 +102,11 @@ public class UserService implements IUserService {
 
     public User getUserBySecurityContextHolder(){
         var id = ((GetUserByIdResponse) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+        var user = this.getUserByUserId(id);
+        return user;
+    }
+
+    private User getUserByUserId(UUID id){
         var optionalUser = _userRepository.findById(id);
         User user = optionalUser.orElseThrow(() -> new NoSuchElementException("Usuário não encontrado"));
         return user;
