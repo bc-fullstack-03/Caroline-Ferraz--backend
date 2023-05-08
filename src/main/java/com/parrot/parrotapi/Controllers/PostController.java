@@ -23,16 +23,10 @@ public class PostController {
     private IPostService _postService;
 
     @PostMapping
-    public ResponseEntity<String> createPost(@RequestBody @Valid CreatePostRequest request){
-        var response = _postService.createPost(request);
+    public ResponseEntity<String> createPost(@RequestPart @Valid CreatePostRequest request, @RequestPart("photo") MultipartFile photoPost) throws Exception {
+        var response = _postService.createPost(request, photoPost);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
-
-//    @PostMapping
-//    public ResponseEntity<String> createPost(@RequestBody @Valid CreatePostRequest request, @RequestParam("photo") MultipartFile photoPost) throws Exception {
-//        var response = _postService.createPost(request, photoPost);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-//    }
 
     @GetMapping
     public ResponseEntity<Page<GetPostsResponse>> getPosts(@PageableDefault(size = 10, sort = {"timestamp"}) Pageable pageable){

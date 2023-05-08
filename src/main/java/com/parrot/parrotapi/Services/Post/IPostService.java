@@ -10,9 +10,7 @@ import java.util.UUID;
 
 public interface IPostService {
 
-    String createPost(CreatePostRequest request);
-
-//    String createPost(CreatePostRequest request, MultipartFile photoPost) throws Exception;
+    String createPost(CreatePostRequest request, MultipartFile photoPost) throws Exception;
 
     Page<GetPostsResponse> getPosts(Pageable pageable);
 

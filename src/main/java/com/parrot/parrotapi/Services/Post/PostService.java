@@ -8,7 +8,6 @@ import com.parrot.parrotapi.Services.User.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,18 +27,12 @@ public class PostService implements IPostService {
     @Autowired
     private IUserService _userService;
 
-    public String createPost(CreatePostRequest request){
-        var post = new Post(request.userId, request.description, request.photo);
+    public String createPost(CreatePostRequest request, MultipartFile photoPost) throws Exception {
+        var userId = _userService.getUserBySecurityContextHolder().getId();
+        var post = new Post(userId, request.description, this.uploadPhotoPost(photoPost, userId));
         _postRepository.save(post);
         return post.getId().toString();
     }
-
-//    public String createPost(CreatePostRequest request, MultipartFile photoPost) throws Exception {
-//        var userId = _userService.getUserBySecurityContextHolder().getId();
-//        var post = new Post(userId, request.description, this.uploadPhotoPost(photoPost, userId));
-//        _postRepository.save(post);
-//        return post.getId().toString();
-//    }
 
     public Page<GetPostsResponse> getPosts(Pageable pageable){
         return _postRepository.findAll(pageable).map(GetPostsResponse::new);
@@ -100,19 +93,6 @@ public class PostService implements IPostService {
         }
         return new PageImpl<>(posts, pageable, posts.size());
     }
-
-//    private void uploadPhotoPost(MultipartFile photoPost, UUID id) throws Exception {
-//        var post = this.getPostByPostId(id);
-//        var photo = "";
-//        try{
-//            var fileName = id + "." + photoPost.getOriginalFilename().substring(photoPost.getOriginalFilename().lastIndexOf(".") + 1);
-//            photo = _fileUploadService.upload(photoPost, fileName);
-//
-//        } catch (Exception e){
-//            throw new Exception(e.getMessage());
-//        }
-//        post.setPhoto(photo);
-//    }
 
     private String uploadPhotoPost(MultipartFile photoPost, UUID id) throws Exception {
         var photo = "";

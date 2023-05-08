@@ -17,5 +17,4 @@ public class CreatePostRequest {
     public UUID userId;
     @Size(max=1000, message="O texto deve ter no máximo 1000 caracteres")
     public String description;
-    public String photo;
 }
