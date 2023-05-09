@@ -84,8 +84,13 @@ public class UserService implements IUserService {
         _userRepository.save(userFollower);
     }
 
-    public User getUser(String email){
+    public User getUserByEmail(String email){
         return _userRepository.findUserByEmail(email);
+    }
+
+    public Page<GetUsersResponse> getUserByNameIgnoreCase(String name, Pageable pageable){
+        var users = _userRepository.findByNameIgnoreCase(name, pageable).map(GetUsersResponse::new);;
+        return users;
     }
 
     public void uploadPhotoProfile(MultipartFile photoFile) throws Exception {

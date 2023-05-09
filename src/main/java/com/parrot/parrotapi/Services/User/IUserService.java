@@ -24,7 +24,9 @@ public interface IUserService {
 
     void addOrRemoveFollower(UUID userId);
 
-    User getUser(String email);
+    User getUserByEmail(String email);
+
+    Page<GetUsersResponse> getUserByNameIgnoreCase(String name, Pageable pageable);
 
     void uploadPhotoProfile(MultipartFile photoFile) throws Exception;
 

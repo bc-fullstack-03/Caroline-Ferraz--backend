@@ -19,7 +19,7 @@ public class AuthenticationService implements IAuthenticationService {
     private PasswordEncoder _passwordEncoder;
 
     public AuthenticateResponse authenticate(AuthenticateRequest request) {
-        var user = _userService.getUser(request.email);
+        var user = _userService.getUserByEmail(request.email);
 
         if(user == null){
             throw new RuntimeException("Senha ou Usuário incorretos.");
