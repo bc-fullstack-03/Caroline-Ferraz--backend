@@ -59,5 +59,7 @@ services:
 <p align="center">🔗 <a href="http://localhost:8082/swagger-ui/swagger-ui/index.html">http://localhost:8082/swagger-ui/swagger-ui/index.html</a> 🔗</p>
 <h4>• Para passar informações no header da requisição, como o token, pode-se consumir os endpoints da API via Postman:</h4>
 <p align="center">
-<img src="https://github-production-user-asset-6210df.s3.amazonaws.com/95757534/237135008-cb46a3a3-615b-4f9c-90f6-c6dd1ee44183.gif" width="100%">
+<img src="[https://user-images.githubusercontent.com/95757534/177064753-b2687300-7240-49ff-b5ec-22939b625df4.gif](https://github-production-user-asset-6210df.s3.amazonaws.com/95757534/237144868-33ac3305-5749-4688-b2a2-b7b38656e620.gif)">
 </p>
+
+![video-postman](https://github.com/bc-fullstack-03/Caroline-Ferraz--backend/assets/95757534/33ac3305-5749-4688-b2a2-b7b38656e620)
